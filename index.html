@@ -3,363 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bibin & Ayang | Our 2nd Monthsary 🧸</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;500&family=Quicksand:wght@400;700&family=Sacramento&display=swap" rel="stylesheet">
+    <title>For My Ayang | Magic Word Search 🧸</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Quicksand:wght@500;700&family=Sacramento&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --doll-pink: #fce4ec;
-            --doll-brown: #a1887f;
-            --stitch-color: #f06292;
-            --cream: #fffaf0;
-            --ribbon-red: #ff8a80;
-            --soft-blue: #e1f5fe;
+            --bg-cream: #fff9f0;
+            --soft-pink: #ffdae0;
+            --deep-pink: #ff8fa3;
+            --doll-brown: #7d5a5a;
+            --stitch: #f06292;
         }
-
-        * { box-sizing: border-box; scroll-behavior: smooth; }
 
         body {
             margin: 0;
-            background-color: var(--cream);
+            background-color: var(--bg-cream);
             font-family: 'Quicksand', sans-serif;
             color: var(--doll-brown);
-            overflow-x: hidden;
-            /* Stitched pattern background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
             background-image: radial-gradient(#f8bbd0 0.5px, transparent 0.5px);
             background-size: 20px 20px;
         }
 
-        /* --- Floating Toys --- */
-        .floating-toy {
-            position: fixed;
-            pointer-events: none;
-            z-index: 10;
-            font-size: 2rem;
-            animation: float 5s infinite ease-in-out;
-            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));
-        }
+        header { text-align: center; padding: 30px 20px; }
+        h1 { font-family: 'Fredoka', sans-serif; color: var(--deep-pink); margin: 0; font-size: 2.2rem; }
+        .hint-text { font-size: 0.9rem; color: var(--doll-brown); margin-top: 5px; opacity: 0.8; }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(-5deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-        }
-
-        /* --- Landing Page --- */
-        .hero {
-            height: 100vh;
+        /* --- Game Board --- */
+        #game-container {
+            background: white;
+            padding: 20px;
+            border-radius: 25px;
+            border: 4px dashed var(--stitch);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(10, 35px);
+            grid-template-rows: repeat(10, 35px);
+            gap: 5px;
+            user-select: none;
+        }
+
+        .cell {
+            width: 35px;
+            height: 35px;
+            display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(180deg, var(--doll-pink) 0%, var(--cream) 100%);
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-family: 'Fredoka', sans-serif;
-            font-size: 3.5rem;
-            color: #d81b60;
-            margin: 0;
-            border: 4px dashed var(--stitch-color);
-            padding: 20px 40px;
-            border-radius: 50px;
-            background: white;
-        }
-
-        .hero p {
-            font-family: 'Sacramento', cursive;
-            font-size: 2.8rem;
+            background: var(--bg-cream);
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
             color: var(--doll-brown);
-            margin-top: 15px;
         }
 
-        /* --- Timeline --- */
-        .timeline-section {
-            padding: 80px 20px;
+        .cell:hover { background: var(--soft-pink); }
+        .cell.selected { background: var(--deep-pink); color: white; transform: scale(1.1); }
+        .cell.found { background: #c5e1a5; color: #33691e; cursor: default; }
+        .cell.hint-glow { animation: hintPulse 1s infinite; }
+
+        @keyframes hintPulse {
+            0% { background: var(--bg-cream); }
+            50% { background: #fff176; }
+            100% { background: var(--bg-cream); }
+        }
+
+        /* --- Word List --- */
+        .word-list {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .word-item {
+            padding: 5px 12px;
+            border-radius: 20px;
             background: white;
-            border-top: 10px solid var(--doll-pink);
-        }
-
-        .timeline-container {
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .timeline-container::after {
-            content: '';
-            position: absolute;
-            width: 8px;
-            background: repeating-linear-gradient(to bottom, var(--doll-pink), var(--doll-pink) 10px, white 10px, white 20px);
-            top: 0; bottom: 0; left: 50%;
-            margin-left: -4px;
-            border-radius: 10px;
-        }
-
-        .event {
-            padding: 30px 40px;
-            position: relative;
-            width: 50%;
-        }
-
-        .left { left: 0; text-align: right; }
-        .right { left: 50%; text-align: left; }
-
-        .content {
-            padding: 25px;
-            background-color: white;
-            border: 3px solid var(--doll-pink);
-            position: relative;
-            border-radius: 30px;
-            /* Stitched border effect */
-            outline: 2px dashed var(--stitch-color);
-            outline-offset: -8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 2px solid var(--soft-pink);
+            font-weight: 600;
+            font-size: 0.85rem;
             transition: 0.3s;
         }
 
-        .content:hover { transform: translateY(-5px); }
-
-        .date-tag {
-            background: var(--stitch-color);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 0.9rem;
+        .word-item.completed {
+            background: var(--soft-pink);
+            color: var(--deep-pink);
+            text-decoration: line-through;
+            border-color: var(--deep-pink);
         }
 
-        .timeline-img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 20px;
-            margin: 15px 0;
-            border: 5px solid var(--cream);
-            cursor: zoom-in;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        /* --- Zoom Overlay --- */
-        #overlay {
+        /* --- Letter Modal --- */
+        #letter-modal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(255, 249, 240, 0.98);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            cursor: zoom-out;
+            padding: 20px;
         }
 
-        #overlay img { max-width: 90%; max-height: 90%; border-radius: 15px; }
-
-        /* --- Love Letter --- */
-        .letter-section {
-            background-color: var(--soft-blue);
-            padding: 100px 20px;
-            text-align: center;
-        }
-
-        .letter-card {
+        .letter-content {
             background: white;
             max-width: 500px;
-            margin: 0 auto;
             padding: 40px;
             border-radius: 40px;
-            border: 10px solid var(--doll-pink);
-            position: relative;
-        }
-
-        .letter-card::before {
-            content: '🎀';
-            font-size: 3rem;
-            position: absolute;
-            top: -35px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        /* --- Footer --- */
-        footer {
-            padding: 80px 20px;
+            border: 8px solid var(--soft-pink);
             text-align: center;
-            background: var(--doll-pink);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
         }
+
+        .letter-content h2 { font-family: 'Sacramento', cursive; font-size: 3rem; color: var(--deep-pink); margin: 0; }
+        .letter-text { line-height: 1.8; font-size: 1.1rem; margin-top: 20px; }
 
         .btn {
-            background: #d81b60;
+            background: var(--deep-pink);
             color: white;
             border: none;
-            padding: 15px 35px;
-            border-radius: 30px;
+            padding: 12px 25px;
+            border-radius: 25px;
             font-family: 'Fredoka', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1rem;
             cursor: pointer;
-            box-shadow: 0 5px 0 #ad1457;
-            transition: 0.2s;
             margin-top: 20px;
+            box-shadow: 0 4px 0 #d17a8a;
         }
 
-        .btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #ad1457; }
+        .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #d17a8a; }
 
-        @media (max-width: 600px) {
-            .timeline-container::after { left: 31px; }
-            .event { width: 100%; padding-left: 70px; padding-right: 20px; text-align: left; }
-            .right { left: 0%; }
+        .btn-hint {
+            background: white;
+            color: var(--doll-brown);
+            border: 2px solid var(--soft-pink);
+            padding: 8px 15px;
+            margin-top: 10px;
+            box-shadow: none;
+        }
+
+        @media (max-width: 450px) {
+            #grid { grid-template-columns: repeat(10, 32px); grid-template-rows: repeat(10, 32px); }
+            .cell { width: 32px; height: 32px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
 
-    <div id="overlay" onclick="this.style.display='none'"><img src="" id="overlay-img"></div>
+    <header>
+        <h1>Magic Word Search ✨</h1>
+        <p class="hint-text">Find: BIBIN, LOVE, AYANG, FOREVER 🧸</p>
+    </header>
 
-    <div class="floating-toy" style="top:10%; left:10%;">🧸</div>
-    <div class="floating-toy" style="top:30%; right:10%; animation-delay:1s;">🐰</div>
-    <div class="floating-toy" style="bottom:20%; left:15%; animation-delay:2s;">🐶</div>
-    <div class="floating-toy" style="bottom:10%; right:20%; animation-delay:3s;">🎀</div>
-
-    <section class="hero">
-        <h1>Bibin & Ayang</h1>
-        <p>Happy 2nd Monthsaryyyy 🐰🐶🤍</p>
-        <a href="#timeline" class="btn">Open our Book ✨</a>
-    </section>
-
-    <section class="timeline-section" id="timeline">
-        <div class="timeline-container">
-
-            <div class="event left">
-                <div class="content">
-                    <span class="date-tag">26 January</span>
-                    <h3>A Scary Day 🥺</h3>
-            
-                    <p>We started rough because we had a small argument, karena ayang pikir aku gk mau visit huaaa🥺.</p>
-                </div>
-            </div>
-
-            <div class="event right">
-                <div class="content">
-                    <span class="date-tag">27 January</span>
-                    <h3>Finding My Way Back 🤍</h3>
-                    <img src="1.jpg" class="timeline-img" onclick="zoomImg(this)">
-                    <p>Bringing you a bouquet and meeting your family for the first time. Terus di prank sama ayang ketemu banyak orang 🙈</p>
-                </div>
-            </div>
-
-            <div class="event left">
-                <div class="content">
-                    <span class="date-tag">28 January</span>
-                    <h3>First meal from ayangg 🥣</h3>
-                    <img src="2.jpg" class="timeline-img" onclick="zoomImg(this)">
-                    <p>Bakso ikan kwetiau — the first time you ordered food for me karena aku lagi sakit, makaciiii <3.</p>
-                </div>
-            </div>
-
-            <div class="event right">
-                <div class="content">
-                    <span class="date-tag">31 January</span>
-                    <h3>Hospital Date ♡</h3>
-                    <img src="3.jpg" class="timeline-img" onclick="zoomImg(this)">
-                    <p>Just cards and your company. The hospital didn't feel so bad with you.</p>
-                </div>
-            </div>
-
-            <div class="event left">
-                <div class="content">
-                    <span class="date-tag">2 February</span>
-                    <h3>First Workday Date 👻</h3>
-                    <p>Nonton Alas Roban di hari senin sama2 boloss 🙈</p>
-                </div>
-            </div>
-
-            <div class="event left">
-                <div class="content">
-                    <span class="date-tag">5 February</span>
-                    <h3>A Surprise Valentine invitation💌</h3>
-                    <img src="4.jpg" class="timeline-img" onclick="zoomImg(this)">
-                    <p>Making a website for you. Surprise successfully delivered! ciee aku masuk tiktok ayangg</p>
-                </div>
-            </div>
-
-            <div class="event right">
-                <div class="content">
-                    <span class="date-tag">7 February</span>
-                    <h3>Fun & Food 🛼</h3>
-                    <img src="5.jpg" class="timeline-img" onclick="zoomImg(this)">
-                    <p>Roller skating and lunch at Ceci et Cela. Ayang cantik banget disini sumpahhhh </p>
-                </div>
-            </div>
-
-            <div class="event left">
-                <div class="content">
-                    <span class="date-tag">14 February</span>
-                    <h3>OUR FIRST VALENTINEEEE 💖</h3>
-                    <img src="6.jpg" class="timeline-img" onclick="zoomImg(this)">
-                   <img src="7.jpg" class="timeline-img" onclick="zoomImg(this)">
-                    <p>Decorated with love, lunch cooked by me, and a dinner to remember, uhuuyyyy. First valentine first bouquettt, makaccii ayanggg 💖</p>
-                </div>
-            </div>
-
-            <div class="event right">
-                <div class="content">
-                    <span class="date-tag">15 February</span>
-                    <h3>Terrarium Date 🌿 Last before LDR :(</h3>
-                    <img src="8.jpg" class="timeline-img" onclick="zoomImg(this)">
-                    <p>Our last cozy date before LDR. Our little world in a jar, so happy first time terrarium.</p>
-                </div>
-            </div>
-
-            <div class="event left">
-                <div class="content">
-                    <span class="date-tag">23 February</span>
-                    <h3>A Big Step 🫶</h3>
-                    <img src="9.jpg" class="timeline-img" onclick="zoomImg(this)">
-                    <p>You met my parents! And I finally gave you the gifts from Thailand.</p>
-                </div>
-            </div>
-
+    <div id="game-container">
+        <div id="grid"></div>
+        <div class="word-list">
+            <div id="word-BIBIN" class="word-item"></div>
+            <div id="word-LOVE" class="word-item"></div>
+            <div id="word-AYANG" class="word-item"></div>
+            <div id="word-FOREVER" class="word-item"></div>
         </div>
-    </section>
+        <button class="btn btn-hint" onclick="giveHint()">Need a hint? ✨</button>
+    </div>
 
-    <section class="letter-section">
-        <div class="letter-card">
-            <h2>For My Favorite girl 🐰</h2>
-            <p>
-                I wanted to give you something as soft and sweet as you are. 
-                Whether it's a bouquet or a plushie, nothing compares to the 
-                warmth of your hug. Happy 2nd Monthsary, sayang! 🤍
-              Semoga ini bisa nemanin biny dan ayanggg 💖💖
-            </p>
-            <p><strong>Love, Bibin</strong></p>
+    <div id="letter-modal" id="modal">
+        <div class="letter-content">
+            <h2>For My Dearest Ayang</h2>
+            <div class="letter-text">
+                <p>You found all the magic words! Just like how I found the most special girl in the world.</p>
+                 <p>I know things have been really heavy and hard for you lately. I wish I could take all that stress away, but since I can't, I want to remind you: <b>You are doing so well.</b></p>
+                <p>Take a deep breath. Everything is going to be okay. I'm right here to hold your hand through it all. You are my favorite girl, today and <b>forever</b>.</p>
+                <p>I hope this little game I have for you make you smile. I love you, Bibin is always proud of you!</p>
+
+         
+            </div>
+            <button class="btn" onclick="window.location.href=window.location.href">Start Over 🤗</button>
         </div>
-    </section>
-
-    <footer>
-        <div style="font-size: 3rem;">🐰🌷🐶</div>
-        <h2>To many more months of us!</h2>
-        <button class="btn" onclick="celebrate()">Click for Hugs! 💖</button>
-    </footer>
+    </div>
 
     <script>
-        function zoomImg(img) {
-            const overlay = document.getElementById('overlay');
-            const overlayImg = document.getElementById('overlay-img');
-            overlay.style.display = 'flex';
-            overlayImg.src = img.src;
-        }
+        const gridData = [
+            ['L', 'O', 'V', 'E', 'X', 'B', 'W', 'Q', 'P', 'A'],
+            ['A', 'S', 'D', 'F', 'B', 'I', 'B', 'I', 'N', 'Y'],
+            ['Z', 'X', 'C', 'V', 'A', 'Y', 'A', 'N', 'G', 'B'],
+            ['F', 'O', 'R', 'E', 'V', 'E', 'R', 'R', 'T', 'Y'],
+            ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+            ['K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'Q'],
+            ['W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A'],
+            ['S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X'],
+            ['C', 'V', 'B', 'N', 'M', 'Q', 'W', 'E', 'R', 'T'],
+            ['Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G']
+        ];
 
-        function celebrate() {
-            alert("Sent a virtual teddy bear hug! 🧸💖 or rather real hug because you are next to me uhuyyy");
-            for(let i=0; i<20; i++) {
-                const heart = document.createElement('div');
-                heart.classList.add('floating-toy');
-                heart.innerHTML = '🧸';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.top = Math.random() * 100 + 'vh';
-                document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 3000);
+        const wordsToFind = {
+            "BIBIN": [[1,4], [1,5], [1,6], [1,7], [1,8]],
+            "LOVE": [[0,0], [0,1], [0,2], [0,3]],
+            "AYANG": [[2,4], [2,5], [2,6], [2,7], [2,8]],
+            "FOREVER": [[3,0], [3,1], [3,2], [3,3], [3,4], [3,5], [3,6]]
+        };
+
+        let selectedCells = [];
+        let foundWords = 0;
+        const gridElement = document.getElementById('grid');
+
+        function initGrid() {
+            gridElement.innerHTML = '';
+            for (let r = 0; r < 10; r++) {
+                for (let c = 0; c < 10; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.innerText = gridData[r][c];
+                    cell.dataset.row = r;
+                    cell.dataset.col = c;
+                    cell.onclick = () => onCellClick(cell, r, c);
+                    gridElement.appendChild(cell);
+                }
             }
         }
+
+        function onCellClick(cell, r, c) {
+            if (cell.classList.contains('found')) return;
+            cell.classList.remove('hint-glow');
+
+            if (cell.classList.contains('selected')) {
+                cell.classList.remove('selected');
+                selectedCells = selectedCells.filter(pos => !(pos[0] === r && pos[1] === c));
+            } else {
+                cell.classList.add('selected');
+                selectedCells.push([r, c]);
+            }
+            checkWords();
+        }
+
+        function checkWords() {
+            for (let word in wordsToFind) {
+                const coords = wordsToFind[word];
+                const item = document.getElementById('word-' + word);
+                if (item.classList.contains('completed')) continue;
+
+                const isMatch = coords.length === selectedCells.length && 
+                                coords.every(c => selectedCells.some(s => s[0] === c[0] && s[1] === c[1]));
+
+                if (isMatch) {
+                    coords.forEach(c => {
+                        const cell = document.querySelector(`.cell[data-row="${c[0]}"][data-col="${c[1]}"]`);
+                        cell.classList.remove('selected');
+                        cell.classList.add('found');
+                    });
+                    
+                    item.classList.add('completed');
+                    selectedCells = [];
+                    foundWords++;
+                    
+                    if (foundWords === 4) {
+                        setTimeout(() => {
+                            document.getElementById('letter-modal').style.display = 'flex';
+                        }, 500);
+                    }
+                }
+            }
+        }
+
+        function giveHint() {
+            for (let word in wordsToFind) {
+                const item = document.getElementById('word-' + word);
+                if (!item.classList.contains('completed')) {
+                    const firstLetterCoord = wordsToFind[word][0];
+                    const cell = document.querySelector(`.cell[data-row="${firstLetterCoord[0]}"][data-col="${firstLetterCoord[1]}"]`);
+                    cell.classList.add('hint-glow');
+                    setTimeout(() => cell.classList.remove('hint-glow'), 3000);
+                    break;
+                }
+            }
+        }
+
+        initGrid();
     </script>
 </body>
 </html>
